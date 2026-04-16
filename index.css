@@ -1,0 +1,360 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Theme variables (light mode default) */
+:root {
+  --bg: #eaeaea;
+  --card: #fff;
+  --text: #000;
+  --secondary-text: #555;
+  --border: #dbdbdb;
+  --input-bg: #fafafa;
+  --shadow: rgba(0, 0, 0, 0.06);
+  --fast: 0.15s;
+  --medium: 0.25s;
+  --ease: ease;
+}
+
+/* Dark mode overrides */
+body.dark-mode {
+  --bg: #0f0f0f;
+  --card: #1a1a1a;
+  --text: #f5f5f5;
+  --secondary-text: #a8a8a8;
+  --border: #262626;
+  --input-bg: #222;
+  --shadow: rgba(0, 0, 0, 0.6);
+}
+
+/* Page layout */
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+}
+
+/* App container (mobile-like layout) */
+.app {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+}
+
+/* Top nav */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.nav-logo-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+/* Dark mode switch */
+.theme-switch {
+  position: relative;
+  width: 42px;
+  height: 22px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #e4e4e4;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+body.dark-mode .slider {
+  background: #444;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s ease;
+}
+
+.theme-switch input:checked + .slider {
+  background: #3897f0;
+}
+
+.theme-switch input:checked + .slider::before {
+  transform: translate(20px, -50%);
+}
+
+/* Stories row */
+.stories {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  scroll-snap-type: x mandatory;
+}
+
+/* Story item */
+.story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+/* Story avatar ring */
+.story-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--medium) var(--ease);
+}
+
+.story-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--card);
+}
+
+/* Seen story state */
+.story-ring.seen {
+  background: #ccc;
+}
+
+.story-ring:hover {
+  transform: scale(1.08);
+}
+
+/* Feed layout */
+main {
+  width: 100%;
+  padding-bottom: 80px;
+}
+
+/* Individual post card */
+.post {
+  margin-bottom: 12px;
+  background: var(--card);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+/* Post header */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+/* Location text under username */
+.location {
+  font-size: 0.82rem;
+  color: var(--secondary-text);
+}
+
+/* Post image */
+.post-image {
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  transition: transform var(--medium) var(--ease);
+}
+
+.post-image:active {
+  transform: scale(0.98);
+}
+
+/* Action icons row */
+.post-actions {
+  display: flex;
+  padding: 8px 12px;
+}
+
+.left-icons {
+  display: flex;
+  gap: 16px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform var(--fast) var(--ease), opacity var(--fast) var(--ease);
+}
+
+.icon:hover {
+  transform: scale(1.15);
+  opacity: 0.7;
+}
+
+/* Dark mode icon adjustment */
+body.dark-mode .icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Like state */
+.heart-icon.liked {
+  filter: invert(32%) sepia(98%) saturate(7492%) hue-rotate(356deg) !important;
+}
+
+/* Heart animation */
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.25); }
+  50% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+.heart-pop {
+  animation: heartPop var(--medium) var(--ease);
+}
+
+/* Likes + caption */
+.likes {
+  padding: 0 12px 4px;
+}
+
+.caption {
+  padding: 0 12px 8px;
+}
+
+/* Username styling */
+.username a,
+.username-link {
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Comment box */
+.comment-box {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.comment-box input {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  border-radius: 18px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+}
+
+.comment-box button {
+  background: none;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  color: #b3d7ff;
+  pointer-events: none;
+}
+
+/* Active comment button */
+.comment-box button.active {
+  color: #3897f0;
+  pointer-events: auto;
+}
+
+/* Bottom navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 52px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.nav-btn.active {
+  opacity: 1;
+  transform: scale(0.9);
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+}
+
+body.dark-mode .nav-icon {
+  filter: brightness(0) invert(1);
+}
